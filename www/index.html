@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<!--
+    Copyright (c) 2012-2014 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, width=device-width,height=device-height,target-densitydpi=device-dpi" />
+     
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+		<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+        <title>Hello World</title>
+    </head>
+    <body>
+	
+	<script>
+
+
+	document.addEventListener("deviceready", onDeviceReady, false);
+
+    // device APIs are available
+    //
+    function onDeviceReady() {
+        navigator.geolocation.getCurrentPosition(onSuccess, onError);
+    }
+
+    function onSuccess(position) {
+        var element = document.getElementById('geolocation');
+        element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
+                            'Longitude: '          + position.coords.longitude             + '<br />' +
+                            'Altitude: '           + position.coords.altitude              + '<br />' +
+                            'Accuracy: '           + position.coords.accuracy              + '<br />' +
+                            'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
+                            'Heading: '            + position.coords.heading               + '<br />' +
+                            'Speed: '              + position.coords.speed                 + '<br />' +
+                            'Timestamp: '          + position.timestamp                    + '<br />';
+
+       $("body").append(element);                     
+    }
+
+
+
+
+
+
+	var ApiUrl = "https://api.eet.nu/";
+
+	$.ajaxSetup({
+    beforeSend: function() {
+        // TODO: show your spinner
+
+        $('#Spinner').show();
+    },
+    complete: function() {
+        // TODO: hide your spinner
+        $('#Spinner').hide();
+    }
+});
+	function update(){
+		document.getElementById("namehead").innerHTML = localStorage.getItem("name")
+	}
+
+	$( document ).ready(function() {
+	var foo = localStorage.getItem("name");
+	
+	if(foo === null){
+	localStorage.setItem("name", "welcome");
+	}
+	update();
+
+});
+function setname(){
+
+alert(document.getElementById("setter").value);
+localStorage.setItem("name",document.getElementById("setter").value);
+
+}
+function clearContent(){
+	$("#list").empty();
+
+
+}
+
+function buildPages(data){
+	for (var i = data.results.length - 1; i >= 0; i--) {
+		var id = "#venues" + data.results[i].id;
+		if(!($(id).length)){
+	 	$("body").append( '<div data-role="page" class="swiperight" id="venues' + data.results[i].id + '"> '
+				+ '<div data-role="header">'
+				+ '<a href="#main" data-icon="back" data-transition="pop" >back</a>'
+				+ '	<h1>'+data.results[i].name+'</h1>'
+			
+				+ ' </div> '
+			
+				+ '<div data-role="content"><ul><li>'
+				+ '	Name : '+data.results[i].name
+				+ '	</li><li>'
+				+ '	category : '+data.results[i].category
+				+ '	</li><li>'
+				+ 'telephone : '+data.results[i].telephone
+				+ '	</li></ul></div></div>');
+ 	}
+ }
+
+}
+function buildContent(data){
+	var builder = '<ul data-role="listview" data-theme="a">';
+
+	 for (var i = data.results.length - 1; i >= 0; i--) {
+	 	builder = builder + '<li class="list-group-item" ><a  class="swipeleft" data-transition="pop" href="#venues' + data.results[i].id + '"><span class="tab">' + data.results[i].name + '</span></a></li>';
+ 	};
+	builder = builder + '</ul>';
+
+	return builder;
+}
+function query(){
+		
+	var searchText = $("#searchbar").val();
+	var searchOn = $("#searchon").val();
+	var querystring = ApiUrl + "venues";
+	if(!(searchText == "")){
+		querystring = querystring+"?query="+searchText+"&"; 
+	}
+
+ 	querystring = querystring + "?sort_by="+searchOn;
+
+	$.get(querystring, function( data ) {
+		clearContent();
+		buildPages(data);
+	 	$("#list").append(buildContent(data));
+		setSwipe();
+	 	 
+	 	$('#list').trigger("create"); 
+	});
+		
+}
+
+
+	function setSwipe(){
+	 	$(".swipeleft").on("swipeleft",function(){  		
+			$(this).click();
+		});
+ 	 	$(".swiperight").on("swiperight",function(){  
+  			window.location.href = "#main";
+  		});
+  		$("#list").on("swiperight",function(){  
+		
+		$("#panelbutton").click();
+  		
+  		});
+	}
+
+
+ 
+
+$.get( ApiUrl + "venues", function( data ) {
+ 	buildPages(data);
+ 	$("#list").append(buildContent(data));
+ 	setSwipe();
+ 	$('#list').trigger("create");
+
+});
+
+	
+
+	</script>
+	
+	<div data-role="page" id="main"> 
+		<div data-role="header">
+			 <a href="#SearchPanel" id="panelbutton" class="ui-btn ui-btn-inline ui-corner-all ui-shadow">Search</a>
+		<a href="#instel" data-icon="gear" class="ui-btn-right" data-transition="pop" >instel</a>
+		<h1 id="namehead"></h1>		
+		</div> 
+		<div id='Spinner' class="loader"></div>	
+		
+		 <div data-role="panel" id="SearchPanel"> 
+		    <h2>Search</h2>
+		    	<input type="text" id="searchbar"></input>
+		    	<h3>Sort by</h3>
+		    	<select id="searchon">
+				  <option default="true" value="rating">Rating</option>
+				  <option value="reviews">Most reviews</option>
+				  <option value="distance">Distance to</option>				  
+				</select>
+				<button onclick="query()"> search</button>
+		    <p>You can close the panel by clicking outside the panel, pressing the Esc key or by swiping.</p>
+		 </div> 
+
+		<div data-role="content">
+			<div id="list">				
+			</div>
+		</div> 
+	</div>
+    </body>
+</html>
