@@ -57,7 +57,7 @@
                             'Speed: '              + position.coords.speed                 + '<br />' +
                             'Timestamp: '          + position.timestamp                    + '<br />';
 
-       $("body").append(element);                     
+                      
     }
 
 
@@ -209,6 +209,9 @@ $.get( ApiUrl + "venues", function( data ) {
 		 </div> 
 
 		<div data-role="content">
+			<div id="geolocation">
+
+			</div>
 			<div id="list">				
 			</div>
 		</div> 
