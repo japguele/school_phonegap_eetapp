@@ -36,17 +36,15 @@
     <body>
 	
 	<script>
+	var latitude;
+	var longitude;
 
+	 navigator.geolocation.getCurrentPosition(onSuccess, onError);
 
-	document.addEventListener("deviceready", onDeviceReady, false);
-
+	
     // device APIs are available
     //
-    function onDeviceReady() {
-    	alert("ready");
-        navigator.geolocation.getCurrentPosition(onSuccess, onError);
-        alert("done");
-    }
+
     function onError(error) {
     alert('code: '    + error.code    + '\n' +
           'message: ' + error.message + '\n');
@@ -63,7 +61,9 @@
                             'Heading: '            + position.coords.heading               + '<br />' +
                             'Speed: '              + position.coords.speed                 + '<br />' +
                             'Timestamp: '          + position.timestamp                    + '<br />';
-            alert(string);                	
+      latitude = position.coords.latitude;
+      longitude = position.coords.longitude;
+        alert(string);                	
                       
     }
 
@@ -151,7 +151,12 @@ function query(){
 		querystring = querystring+"?query="+searchText+"&"; 
 	}
 
+	if(searchOn == "distance"){
+
+		querystring = querystring+"?geolocation=:"+latitude+",:"+longitude;
+	}else{
  	querystring = querystring + "?sort_by="+searchOn;
+ 	}
 
 	$.get(querystring, function( data ) {
 		clearContent();
