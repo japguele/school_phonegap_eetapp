@@ -114,9 +114,14 @@ function buildPages(data){
 				+ '	Name : '+data.results[i].name
 				+ '	</li><li>'
 				+ '	category : '+data.results[i].category
-				+ '	</li><li>'
-				+ 'telephone : '+ "<a href='tel:"+  data.results[i].telephone+"' >"+ data.results[i].telephone+"</a>"
-				+ '</li><li>'
+				+ '	</li>');
+	 	if( data.results[i].telephone){
+		$("body").append( '<li> telephone : '+ "<a href='tel:"+  data.results[i].telephone+"' >"+ data.results[i].telephone+"</a> </li>");
+		}
+		if( data.results[i].website_url){
+		$("body").append( '<li> Website : ' + '<a href="'+data.results[i].website_url+'" >'+ data.results[i].website_url+' </a>' </li>");
+		}
+				+ <li>'
 				+ 'Website : ' + '<a href="'+data.results[i].website_url+'" >'+ data.results[i].website_url+' </a>'
 				+ '	</li></ul></div></div>');
  	}
