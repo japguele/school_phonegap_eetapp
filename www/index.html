@@ -167,20 +167,20 @@ function query(){
 	 	$(".swipeleft").on("swipeleft",function(){  	
 	 	
 			$(this).click();
-			navigator.vibrate(1000);
+		
 		});
  	 	$(".swiperight").on("swiperight",function(){  
  	 		
   			window.location.href = "#main";
-navigator.vibrate(1000);
+
   		});
   		$("#list").on("swiperight",function(){  
 		
 		$("#panelbutton").click();
-		navigator.vibrate(1000);
+		
   		});
 	}
-alert(navigator.vibrate(1000));
+
 
 
 $.get( ApiUrl + "venues", function( data ) {
