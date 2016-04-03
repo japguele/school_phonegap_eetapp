@@ -51,7 +51,7 @@
 }
 
     function onSuccess(position) {
-    	alert("succes");
+    	
 
        var string = 'Latitude: '           + position.coords.latitude              + '<br />' +
                             'Longitude: '          + position.coords.longitude             + '<br />' +
@@ -63,7 +63,7 @@
                             'Timestamp: '          + position.timestamp                    + '<br />';
       latitude = position.coords.latitude;
       longitude = position.coords.longitude;
-        alert(string);                	
+                     	
                       
     }
 
@@ -90,7 +90,6 @@
 
 function setname(){
 
-alert(document.getElementById("setter").value);
 localStorage.setItem("name",document.getElementById("setter").value);
 
 }
@@ -136,7 +135,7 @@ function buildContent(data){
 }
 window.onload = function() { 
   
-alert(window.localStorage.getItem("searchbar"));
+
 document.getElementById("searchbar").value = window.localStorage.getItem("searchbar"); 
 }
 function query(){
@@ -168,22 +167,29 @@ function query(){
 	 	$(".swipeleft").on("swipeleft",function(){  	
 	 	
 			$(this).click();
+			navigator.notification.beep(2);
+
 			navigator.vibrate(1000);
 		});
  	 	$(".swiperight").on("swiperight",function(){  
  	 		
   			window.location.href = "#main";
+  			navigator.notification.beep(2);
+
   			navigator.vibrate(1000)	;
   		});
   		$("#list").on("swiperight",function(){  
 		
 		$("#panelbutton").click();
+		navigator.notification.beep(2);
+
 		navigator.vibrate(1000)	;
   		
   		});
 	}
 
   
+navigator.notification.beep(2);
 
 
 
