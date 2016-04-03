@@ -39,7 +39,7 @@
 	var latitude;
 	var longitude;
 
-	 navigator.geolocation.getCurrentPosition(onSuccess, onError);
+	 navigator.geolocation.getCurrentPosition(onSuccess, onError,{ timeout: 30000 });
 
 	
     // device APIs are available
@@ -85,19 +85,9 @@
         $('#Spinner').hide();
     }
 });
-	function update(){
-		document.getElementById("namehead").innerHTML = localStorage.getItem("name")
-	}
 
-	$( document ).ready(function() {
-	var foo = localStorage.getItem("name");
-	
-	if(foo === null){
-	localStorage.setItem("name", "welcome");
-	}
-	update();
 
-});
+
 function setname(){
 
 alert(document.getElementById("setter").value);
@@ -126,7 +116,9 @@ function buildPages(data){
 				+ '	</li><li>'
 				+ '	category : '+data.results[i].category
 				+ '	</li><li>'
-				+ 'telephone : '+data.results[i].telephone
+				+ 'telephone : '+ "<a href='tel:"+  data.results[i].telephone+"' >"+ data.results[i].telephone+"</a>"
+				+ '</li><li>'
+				+ 'Website : ' + '<a href="'+data.results[i].website_url+'" >'+ data.results[i].website_url+' </a>'
 				+ '	</li></ul></div></div>');
  	}
  }
@@ -136,7 +128,7 @@ function buildContent(data){
 	var builder = '<ul data-role="listview" data-theme="a">';
 
 	 for (var i = data.results.length - 1; i >= 0; i--) {
-	 	builder = builder + '<li class="list-group-item" ><a  class="swipeleft" data-transition="pop" href="#venues' + data.results[i].id + '"><span class="tab">' + data.results[i].name + '</span></a></li>';
+	 	builder = builder + '<li class="list-group-item"  ><a  class="swipeleft" data-transition="pop" href="#venues' + data.results[i].id + '"><span class="tab textitem">' + data.results[i].name + '</span> <span class="stars">' + (data.results[i].rating / 20)  +' </span> </a></li>';
  	};
 	builder = builder + '</ul>';
 
@@ -153,48 +145,69 @@ function query(){
 
 	if(searchOn == "distance"){
 
-		querystring = querystring+"?geolocation=:"+latitude+",:"+longitude;
+		querystring = querystring+"?geolocation="+latitude+","+longitude;
 	}else{
  	querystring = querystring + "?sort_by="+searchOn;
  	}
 
 	$.get(querystring, function( data ) {
 		clearContent();
-		buildPages(data);
-	 	$("#list").append(buildContent(data));
-		setSwipe();
-	 	 
-	 	$('#list').trigger("create"); 
+		build(data);		
 	});
 		
 }
 
 
 	function setSwipe(){
-	 	$(".swipeleft").on("swipeleft",function(){  		
+	 	$(".swipeleft").on("swipeleft",function(){  	
+	 	navigator.vibrate(1000)	;
 			$(this).click();
 		});
  	 	$(".swiperight").on("swiperight",function(){  
+ 	 		navigator.vibrate(1000)	;
   			window.location.href = "#main";
   		});
   		$("#list").on("swiperight",function(){  
-		
+		navigator.vibrate(1000)	;
 		$("#panelbutton").click();
   		
   		});
 	}
 
+  
 
- 
+var value = window.localStorage.getItem("data");
 
-$.get( ApiUrl + "venues", function( data ) {
- 	buildPages(data);
+if(value != null){
+	$.get( ApiUrl + "venues", function( data ) {
+	    window.localStorage.setItem("data",data );
+		build(data);
+	});
+}else{
+	build(value);
+}
+
+function build(data){
+	 buildPages(data);
  	$("#list").append(buildContent(data));
  	setSwipe();
+ 	 $('span.stars').stars();
  	$('#list').trigger("create");
+}
 
-});
 
+$.fn.stars = function() {
+    return $(this).each(function() {
+        // Get the value
+        var val = parseFloat($(this).html());
+        // Make sure that the value is in 0 - 5 range, multiply to get width
+        var size = Math.max(0, (Math.min(5, val))) * 16;
+        // Create stars holder
+        var $span = $('<span />').width(size);
+        // Replace the numerical value with stars
+        $(this).html($span);
+    });
+}
 	
 
 	</script>
@@ -216,15 +229,16 @@ $.get( ApiUrl + "venues", function( data ) {
 				  <option value="reviews">Most reviews</option>
 				  <option value="distance">Distance to</option>				  
 				</select>
+
 				<button onclick="query()"> search</button>
 		    <p>You can close the panel by clicking outside the panel, pressing the Esc key or by swiping.</p>
 		 </div> 
 
-		<div data-role="content">
+		<div data-role="content"  >
 			<div id="geolocation">
 
 			</div>
-			<div id="list">				
+			<div id="list" >				
 			</div>
 		</div> 
 	</div>
