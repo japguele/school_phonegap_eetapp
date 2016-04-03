@@ -134,12 +134,18 @@ function buildContent(data){
 
 	return builder;
 }
+window.onload = function() { 
+  
+alert(window.localStorage.getItem("searchbar"));
+document.getElementById("searchbar").value = window.localStorage.getItem("searchbar"); 
+}
 function query(){
 		
 	var searchText = $("#searchbar").val();
 	var searchOn = $("#searchon").val();
 	var querystring = ApiUrl + "venues";
 	if(!(searchText == "")){
+		window.localStorage.setItem("searchbar",searchText); 
 		querystring = querystring+"?query="+searchText+"&"; 
 	}
 
@@ -160,32 +166,31 @@ function query(){
 
 	function setSwipe(){
 	 	$(".swipeleft").on("swipeleft",function(){  	
-	 	navigator.vibrate(1000)	;
+	 	
 			$(this).click();
+			navigator.vibrate(1000);
 		});
  	 	$(".swiperight").on("swiperight",function(){  
- 	 		navigator.vibrate(1000)	;
+ 	 		
   			window.location.href = "#main";
+  			navigator.vibrate(1000)	;
   		});
   		$("#list").on("swiperight",function(){  
-		navigator.vibrate(1000)	;
+		
 		$("#panelbutton").click();
+		navigator.vibrate(1000)	;
   		
   		});
 	}
 
   
 
-var value = window.localStorage.getItem("data");
 
-if(value == null){
-	$.get( ApiUrl + "venues", function( data ) {
-	   window.localStorage.setItem("data",data );
+
+$.get( ApiUrl + "venues", function( data ) {
+	   
 		build(data);
-	});
-}else{
-	build(value);
-}
+});
 
 function build(data){
 	 buildPages(data);

@@ -75,9 +75,12 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
-     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <feature name="http://api.phonegap.com/1.0/geolocation"/>
+    <feature name="http://api.phonegap.com/1.0/network"/>
+    <feature name="http://api.phonegap.com/1.0/notification"/>
+
+
     <platform name="android">
-       
 
         <allow-intent href="market:*" />
     </platform>
