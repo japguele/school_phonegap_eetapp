@@ -178,9 +178,9 @@ function query(){
 
 var value = window.localStorage.getItem("data");
 
-if(value != null){
+if(value == null){
 	$.get( ApiUrl + "venues", function( data ) {
-	    window.localStorage.setItem("data",data );
+	   window.localStorage.setItem("data",data );
 		build(data);
 	});
 }else{

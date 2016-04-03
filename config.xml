@@ -75,8 +75,10 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <platform name="android">
-        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+       
+
         <allow-intent href="market:*" />
     </platform>
     <platform name="ios">
