@@ -46,21 +46,12 @@
     //
 
     function onError(error) {
-    alert('code: '    + error.code    + '\n' +
-          'message: ' + error.message + '\n');
-}
+    	alert('code: '    + error.code    + '\n' +
+        	  'message: ' + error.message + '\n');
+	}
 
     function onSuccess(position) {
-    	
 
-       var string = 'Latitude: '           + position.coords.latitude              + '<br />' +
-                            'Longitude: '          + position.coords.longitude             + '<br />' +
-                            'Altitude: '           + position.coords.altitude              + '<br />' +
-                            'Accuracy: '           + position.coords.accuracy              + '<br />' +
-                            'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
-                            'Heading: '            + position.coords.heading               + '<br />' +
-                            'Speed: '              + position.coords.speed                 + '<br />' +
-                            'Timestamp: '          + position.timestamp                    + '<br />';
       latitude = position.coords.latitude;
       longitude = position.coords.longitude;
                      	
@@ -87,12 +78,6 @@
 });
 
 
-
-function setname(){
-
-localStorage.setItem("name",document.getElementById("setter").value);
-
-}
 function clearContent(){
 	$("#list").empty();
 
@@ -119,9 +104,9 @@ function buildPages(data){
 		$("body").append( '<li> telephone : '+ "<a href='tel:"+  data.results[i].telephone+"' >"+ data.results[i].telephone+"</a> </li>");
 		}
 		if( data.results[i].website_url){
-		$("body").append( '<li> Website : ' + '<a href="'+data.results[i].website_url+'" >'+ data.results[i].website_url+' </a>' </li>");
+		$("body").append( '<li> Website : ' + '<a href="'+data.results[i].website_url+'" >'+ data.results[i].website_url+' </a> </li>"');
 		}
-				+ <li>'
+				+ '<li>'
 				+ 'Website : ' + '<a href="'+data.results[i].website_url+'" >'+ data.results[i].website_url+' </a>'
 				+ '	</li></ul></div></div>');
  	}
@@ -138,9 +123,11 @@ function buildContent(data){
 
 	return builder;
 }
-window.onload = function() { 
-  
-
+window.onload = function() {  
+$.get( ApiUrl + "venues", function( data ) {
+	   
+		build(data);
+});
 document.getElementById("searchbar").value = window.localStorage.getItem("searchbar"); 
 }
 function query(){
@@ -188,10 +175,7 @@ function query(){
 
 
 
-$.get( ApiUrl + "venues", function( data ) {
-	   
-		build(data);
-});
+
 
 function build(data){
 	 buildPages(data);
