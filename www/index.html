@@ -25,7 +25,7 @@
         <meta name="format-detection" content="telephone=no" />
         <meta name="msapplication-tap-highlight" content="no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, width=device-width,height=device-height,target-densitydpi=medium-dpi" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, width=device-width,height=device-height,target-densitydpi=high-dpi" />
         <meta content="width=device-width, minimum-scale=1, maximum-scale=1" name="viewport">
      
         <link rel="stylesheet" type="text/css" href="css/index.css" />
@@ -37,6 +37,8 @@
     <body>
 	
 	<script>
+
+	var ApiUrl = "https://api.eet.nu/";
 	var latitude;
 	var longitude;
 
@@ -58,13 +60,6 @@
                      	
                       
     }
-
-
-
-
-
-
-	var ApiUrl = "https://api.eet.nu/";
 
 	$.ajaxSetup({
     beforeSend: function() {
@@ -207,8 +202,7 @@ $.fn.stars = function() {
 	
 	<div data-role="page" id="main"> 
 		<div data-role="header">
-			 <a href="#SearchPanel" id="panelbutton" class="ui-btn ui-btn-inline ui-corner-all ui-shadow">Search</a>
-		<a href="#instel" data-icon="gear" class="ui-btn-right" data-transition="pop" >instel</a>
+			 <a href="#SearchPanel" id="panelbutton" class="ui-btn ui-btn-inline ui-corner-all ui-shadow">Search</a>		
 		<h1 id="namehead"></h1>		
 		</div> 
 		<div id='Spinner' class="loader"></div>	
