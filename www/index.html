@@ -26,6 +26,7 @@
         <meta name="msapplication-tap-highlight" content="no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, width=device-width,height=device-height,target-densitydpi=device-dpi" />
+        <meta content="width=device-width, minimum-scale=1, maximum-scale=1" name="viewport">
      
         <link rel="stylesheet" type="text/css" href="css/index.css" />
 		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
@@ -87,8 +88,9 @@ function clearContent(){
 function buildPages(data){
 	for (var i = data.results.length - 1; i >= 0; i--) {
 		var id = "#venues" + data.results[i].id;
+		var content;
 		if(!($(id).length)){
-	 	$("body").append( '<div data-role="page" class="swiperight" id="venues' + data.results[i].id + '"> '
+	 	content = '<div data-role="page" class="swiperight" id="venues' + data.results[i].id + '"> '
 				+ '<div data-role="header">'
 				+ '<a href="#main" data-icon="back" data-transition="pop" >back</a>'
 				+ '	<h1>'+data.results[i].name+'</h1>'
@@ -99,15 +101,17 @@ function buildPages(data){
 				+ '	Name : '+data.results[i].name
 				+ '	</li><li>'
 				+ '	category : '+data.results[i].category
-				+ '	</li>');
+				+ '	</li>';
 	 	if( data.results[i].telephone){
-		$("body").append( '<li> telephone : '+ "<a href='tel:"+  data.results[i].telephone+"' >"+ data.results[i].telephone+"</a> </li>");
+	content +='<li> telephone : '+ "<a href='tel:"+  data.results[i].telephone+"' >"+ data.results[i].telephone+"</a> </li>";
 		}
 		if( data.results[i].website_url){
-		$("body").append( '<li> Website : ' + '<a href="'+data.results[i].website_url+'" >'+ data.results[i].website_url+' </a> </li>"');
+	content +='<li> Website : ' + '<a href="'+data.results[i].website_url+'" >'+ data.results[i].website_url+' </a> </li>';
 		}
 				
-		$("body").append( '	</li></ul></div></div>');
+		content +='</ul></div></div></div>';
+
+		$("body").append(content);
  	}
  }
 
