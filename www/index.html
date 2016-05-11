@@ -49,8 +49,8 @@
     //
 
     function onError(error) {
-    	alert('code: '    + error.code    + '\n' +
-        	  'message: ' + error.message + '\n');
+    	alert('please enable geolocation and restart the app to use all features of this app');
+     	navigator.vibrate(3000);
 	}
 
     function onSuccess(position) {
