@@ -50,7 +50,7 @@
 
     function onError(error) {
     	alert('please enable geolocation and restart the app to use all features of this app');
-     	navigator.vibrate(3000);
+     	
 	}
 
     function onSuccess(position) {
@@ -68,8 +68,10 @@
         $('#Spinner').show();
     },
     complete: function() {
+
         // TODO: hide your spinner
         $('#Spinner').hide();
+        navigator.vibrate(1000);
     }
 });
 
