@@ -25,8 +25,8 @@
     <preference name="android-minSdkVersion" value="14" />
     <preference name="android-installLocation" value="auto" />
     <gap:plugin name="org.apache.cordova.geolocation" />
-    <gap:plugin name="org.apache.cordova.globalization" />
-    <gap:plugin name="org.apache.cordova.vibration" />
+    <gap:plugin name="org.apache.cordova.globalization" />   
+    <gap:plugin name="org.apache.cordova.core.vibration" />
     <icon src="icon.png" />
 
     <icon gap:platform="android" gap:qualifier="ldpi" src="www/res/icon/android/icon-36-ldpi.png" />
@@ -66,7 +66,9 @@
     <feature name="http://api.phonegap.com/1.0/notification"/>
     <feature name="Notification">
         <param name="android-package" value="org.apache.cordova.Notification" />  
-        <param name="ios-package" value="CDVNotification" />
+        <param name="ios-package" value="CDVNotification" />       
+    <param name="android-package" value="org.apache.cordova.Notification" />
+</feature>
     </feature>
 
 
